@@ -19,6 +19,13 @@ RUN apk add --no-cache cmake git g++ make curl-dev libarchive-dev libsodium-dev 
 	&& cmake -GNinja -DWARNING_AS_ERROR=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SOTA_TOOLS=ON -DBUILD_SYSTEMD=OFF .. \
 	&& ninja src/sota_tools/install
 
+# download and extract OE utilities
+RUN cd /root/ \
+  && mkdir oe \
+  && wget https://github.com/openembedded/openembedded-core/archive/2020-04.1-dunfell.tar.gz -O oe.tar.gz \
+  && tar -xf oe.tar.gz --strip-components=1 -C oe \
+  && rm oe.tar.gz
+
 ## Stage 2
 FROM docker:dind
 WORKDIR /root/
@@ -37,5 +44,9 @@ COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-deploy /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-push /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-sign/bin/garage-sign /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-sign/lib/ /usr/lib/
+
+# install OE core utilities, WIC utility is located here /usr/bin/oe/scripts/wic
+COPY --from=0 /root/oe /usr/bin/oe
+
 CMD bash
 ENTRYPOINT []
