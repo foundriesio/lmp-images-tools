@@ -30,7 +30,7 @@ RUN cd /root/ \
 FROM docker:dind
 WORKDIR /root/
 
-RUN apk add --no-cache bash glib libarchive libcurl libsodium nss openjdk8-jre-base ostree python3 py3-requests boost-program_options boost-log boost-filesystem boost-log_setup
+RUN apk add --no-cache bash glib libarchive libcurl libsodium nss openjdk8-jre-base ostree python3 py3-requests boost-program_options boost-log boost-filesystem boost-log_setup parted
 RUN wget -O /tmp/docker-app.tgz  https://github.com/docker/app/releases/download/v0.9.0-beta1/docker-app-linux.tar.gz \
 	&& tar xf "/tmp/docker-app.tgz" -C /tmp/ \
 	&& mkdir -p /usr/lib/docker/cli-plugins \
