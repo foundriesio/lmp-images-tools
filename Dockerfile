@@ -26,6 +26,11 @@ RUN cd /root/ \
   && tar -xf oe.tar.gz --strip-components=1 -C oe \
   && rm oe.tar.gz
 
+RUN apk add patch
+COPY 0001-wic-Adjust-cmd-line-format-to-debugfs-1.45.6.patch /root/oe
+RUN cd /root/oe \
+  && patch scripts/lib/wic/engine.py 0001-wic-Adjust-cmd-line-format-to-debugfs-1.45.6.patch
+
 ## Stage 2
 FROM docker:dind
 WORKDIR /root/
