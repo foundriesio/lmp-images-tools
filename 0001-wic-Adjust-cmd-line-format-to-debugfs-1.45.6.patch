@@ -1,0 +1,43 @@
+From d9305df61b07bb873a55aab9ef03c17cb895147e Mon Sep 17 00:00:00 2001
+From: Mike Sul <mike.sul@foundries.io>
+Date: Wed, 29 Jul 2020 23:35:53 +0300
+Subject: [PATCH] wic: Adjust cmd line format to debugfs 1.45.6
+
+Signed-off-by: Mike Sul <mike.sul@foundries.io>
+---
+ scripts/lib/wic/engine.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 9ff4394757..6bbecb8a5d 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -318,9 +318,9 @@ class Disk:
+             raise WicError("Partition %s is not in the image" % pnum)
+ 
+         if self.partitions[pnum].fstype.startswith('ext'):
+-            return exec_cmd("{} {} -R 'ls -l {}'".format(self.debugfs,
+-                                                         self._get_part_image(pnum),
+-                                                         path), as_shell=True)
++            return exec_cmd("{} -R 'ls -l {}' {}".format(self.debugfs,
++                                                         path,
++                                                         self._get_part_image(pnum)), as_shell=True)
+         else: # fat
+             return exec_cmd("{} -i {} ::{}".format(self.mdir,
+                                                    self._get_part_image(pnum),
+@@ -360,9 +360,9 @@ class Disk:
+         This only applies to ext* partition.
+         """
+         abs_path = re.sub('\/\/+', '/', path)
+-        cmd = "{} {} -wR 'rm \"{}\"'".format(self.debugfs,
+-                                            self._get_part_image(pnum),
+-                                            abs_path)
++        cmd = "{} -wR 'rm \"{}\"' {}".format(self.debugfs,
++                                             abs_path,
++                                             self._get_part_image(pnum))
+         out = exec_cmd(cmd , as_shell=True)
+         for line in out.splitlines():
+             if line.startswith("rm:"):
+-- 
+2.17.1
+
