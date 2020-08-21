@@ -31,11 +31,14 @@ COPY 0001-wic-Adjust-cmd-line-format-to-debugfs-1.45.6.patch /root/oe
 RUN cd /root/oe \
   && patch scripts/lib/wic/engine.py 0001-wic-Adjust-cmd-line-format-to-debugfs-1.45.6.patch
 
+RUN apk add python3 py3-pip libffi-dev make openssl-dev gcc libc-dev python3-dev
+RUN pip3 install docker-compose==1.26
+
 ## Stage 2
 FROM docker:dind
 WORKDIR /root/
 
-RUN apk add --no-cache bash glib libarchive libcurl libsodium nss openjdk8-jre-base ostree python3 py3-requests py3-yaml boost-program_options boost-log boost-filesystem boost-log_setup parted docker-compose
+RUN apk add --no-cache bash glib libarchive libcurl libsodium nss openjdk8-jre-base ostree python3 boost-program_options boost-log boost-filesystem boost-log_setup parted
 RUN wget -O /tmp/docker-app.tgz  https://github.com/docker/app/releases/download/v0.9.0-beta1/docker-app-linux.tar.gz \
 	&& tar xf "/tmp/docker-app.tgz" -C /tmp/ \
 	&& mkdir -p /usr/lib/docker/cli-plugins \
@@ -44,6 +47,8 @@ RUN wget -O /tmp/docker-app.tgz  https://github.com/docker/app/releases/download
 ENV DOCKER_CLI_EXPERIMENTAL=enabled
 COPY ota-publish.sh /usr/bin/ota-publish
 COPY ota-dockerapp.py /usr/bin/ota-dockerapp
+COPY --from=0 /usr/lib/python3.8/site-packages /usr/lib/python3.8/site-packages
+COPY --from=0 /usr/bin/docker-compose /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-check /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-deploy /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-push /usr/bin/
