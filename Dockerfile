@@ -1,5 +1,5 @@
 FROM alpine:latest
-ENV AKTUALIZR_SRCREV 2019.10
+ENV AKTUALIZR_SRCREV 2020.10
 WORKDIR /root/
 
 RUN apk add --no-cache cmake git g++ make curl-dev libarchive-dev libsodium-dev dpkg-dev doxygen graphviz sqlite-dev glib-dev autoconf automake libtool python3 boost-dev ninja \
@@ -16,7 +16,7 @@ RUN apk add --no-cache cmake git g++ make curl-dev libarchive-dev libsodium-dev 
 	&& mkdir build-git \
 	&& cd build-git \
 	&& sed -i '/GLOB_PERIOD/a #define GLOB_TILDE 4096' /usr/include/glob.h \
-	&& cmake -GNinja -DWARNING_AS_ERROR=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SOTA_TOOLS=ON -DBUILD_SYSTEMD=OFF .. \
+	&& cmake -GNinja -DWARNING_AS_ERROR=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SOTA_TOOLS=ON .. \
 	&& ninja src/sota_tools/install
 
 # download and extract OE utilities
@@ -54,6 +54,7 @@ COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-deploy /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-push /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-sign/bin/garage-sign /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-sign/lib/ /usr/lib/
+COPY --from=0 /root/aktualizr/build-git/src/sota_tools/libsota_tools.so /usr/lib/
 
 # install OE core utilities, WIC utility is located here /usr/bin/oe/scripts/wic
 COPY --from=0 /root/oe /usr/bin/oe
