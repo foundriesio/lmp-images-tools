@@ -1,5 +1,5 @@
 FROM alpine:latest
-ENV AKTUALIZR_SRCREV 2020.10
+ENV AKTUALIZR_SRCREV 2020.10+fio
 WORKDIR /root/
 
 RUN apk add --no-cache cmake git g++ make curl-dev libarchive-dev libsodium-dev dpkg-dev doxygen graphviz sqlite-dev glib-dev autoconf automake libtool python3 boost-dev ninja \
@@ -9,7 +9,7 @@ RUN apk add --no-cache cmake git g++ make curl-dev libarchive-dev libsodium-dev 
 	&& ./configure \
 	&& make -j`getconf _NPROCESSORS_ONLN` install \
 	&& cd ../ \
-	&& git clone https://github.com/advancedtelematic/aktualizr.git \
+	&& git clone https://github.com/foundriesio/aktualizr.git \
 	&& cd aktualizr \
 	&& git checkout $AKTUALIZR_SRCREV \
 	&& git submodule update --init --recursive \
