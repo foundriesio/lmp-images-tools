@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.12
 ENV AKTUALIZR_SRCREV 2020.10+fio
 WORKDIR /root/
 
@@ -35,7 +35,7 @@ RUN apk add python3 py3-pip libffi-dev make openssl-dev gcc libc-dev python3-dev
 RUN pip3 install docker-compose==1.27 expandvars==0.6.5
 
 ## Stage 2
-FROM docker:dind
+FROM docker:20.10.2-dind
 WORKDIR /root/
 
 RUN apk add --no-cache bash glib libarchive libcurl libsodium nss openjdk8-jre-base ostree python3 boost-program_options boost-log boost-filesystem boost-log_setup parted sgdisk git
