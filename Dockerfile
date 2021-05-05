@@ -38,7 +38,7 @@ RUN pip3 install docker-compose==1.27 expandvars==0.6.5
 FROM golang:alpine
 RUN apk add gcc git glib-dev make musl-dev
 RUN git clone https://github.com/foundriesio/ostreehub /ostreehub && \
-	cd /ostreehub && git checkout e46184fd3d985a5bd76837d5a6523eaa2b8a8af2
+	cd /ostreehub && git checkout 28589fed069acec05026d94d9450cbd4fe3980b8
 RUN cd /ostreehub && make fiopush && make fiocheck
 
 
