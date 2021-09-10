@@ -37,10 +37,9 @@ RUN pip3 install docker-compose==1.27 expandvars==0.6.5
 
 FROM golang:alpine
 RUN apk add gcc git glib-dev make musl-dev
-RUN git clone https://github.com/foundriesio/ostreehub /ostreehub && \
-	cd /ostreehub && git checkout 28589fed069acec05026d94d9450cbd4fe3980b8
-RUN cd /ostreehub && make fiopush && make fiocheck
-
+RUN git clone https://github.com/foundriesio/ostreeuploader.git /ostreeuploader && \
+	cd /ostreeuploader && git checkout 54daa6777667ab9263c65a379453b65d9a2eb19a
+RUN cd /ostreeuploader && make
 
 FROM docker:20.10.2-dind
 WORKDIR /root/
@@ -66,8 +65,8 @@ COPY --from=0 /root/aktualizr/build-git/src/sota_tools/libsota_tools.so /usr/lib
 # install OE core utilities, WIC utility is located here /usr/bin/oe/scripts/wic
 COPY --from=0 /root/oe /usr/bin/oe
 
-COPY --from=1 /ostreehub/bin/fiopush /usr/bin/
-COPY --from=1 /ostreehub/bin/fiocheck /usr/bin/
+COPY --from=1 /ostreeuploader/bin/fiopush /usr/bin/
+COPY --from=1 /ostreeuploader/bin/fiocheck /usr/bin/
 
 CMD bash
 ENTRYPOINT []
