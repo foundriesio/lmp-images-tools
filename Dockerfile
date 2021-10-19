@@ -32,7 +32,7 @@ RUN cd /root/oe \
   && patch scripts/lib/wic/engine.py 0001-wic-Adjust-cmd-line-format-to-debugfs-1.45.6.patch
 
 RUN apk add python3 py3-pip libffi-dev make openssl-dev gcc libc-dev python3-dev rust cargo
-RUN pip3 install docker-compose==1.27 expandvars==0.6.5
+RUN pip3 install docker-compose==1.27 expandvars==0.6.5 awscli==1.20.64
 
 
 FROM golang:alpine
