@@ -55,6 +55,7 @@ COPY ota-publish.sh /usr/bin/ota-publish
 COPY ota-dockerapp.py /usr/bin/ota-dockerapp
 COPY --from=0 /usr/lib/python3.8/site-packages /usr/lib/python3.8/site-packages
 COPY --from=0 /usr/bin/docker-compose /usr/bin/
+COPY --from=0 /usr/bin/aws /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-check /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-deploy /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-push /usr/bin/
