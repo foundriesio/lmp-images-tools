@@ -1,5 +1,5 @@
-FROM alpine:3.12
-ENV AKTUALIZR_SRCREV 2020.10+fio
+FROM alpine:3.15
+ENV AKTUALIZR_SRCREV 2021.1+fio
 WORKDIR /root/
 
 RUN apk add --no-cache cmake git g++ make curl-dev libarchive-dev libsodium-dev dpkg-dev doxygen graphviz sqlite-dev glib-dev autoconf automake libtool python3 boost-dev ninja \
@@ -53,7 +53,7 @@ RUN wget -O /tmp/docker-app.tgz  https://github.com/docker/app/releases/download
 ENV DOCKER_CLI_EXPERIMENTAL=enabled
 COPY ota-publish.sh /usr/bin/ota-publish
 COPY ota-dockerapp.py /usr/bin/ota-dockerapp
-COPY --from=0 /usr/lib/python3.8/site-packages /usr/lib/python3.8/site-packages
+COPY --from=0 /usr/lib/python3.9/site-packages /usr/lib/python3.9/site-packages
 COPY --from=0 /usr/bin/docker-compose /usr/bin/
 COPY --from=0 /usr/bin/aws /usr/bin/
 COPY --from=0 /root/aktualizr/build-git/src/sota_tools/garage-check /usr/bin/
