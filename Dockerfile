@@ -1,7 +1,7 @@
 FROM golang:alpine
 RUN apk add gcc git glib-dev make musl-dev
 RUN git clone https://github.com/foundriesio/ostreeuploader.git /ostreeuploader && \
-	cd /ostreeuploader && git checkout 0372bd4386a28ed02a1cd9f643c9e58700db4367
+	cd /ostreeuploader && git checkout ae83a2188808fd6188adb25ac72dffd4beaadd3d 
 RUN cd /ostreeuploader && make
 
 FROM docker:20.10.12-dind
