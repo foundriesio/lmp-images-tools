@@ -3,6 +3,7 @@ RUN apk add gcc git glib-dev make musl-dev
 RUN git clone https://github.com/foundriesio/ostreeuploader.git /ostreeuploader && \
 	cd /ostreeuploader && git checkout ae83a2188808fd6188adb25ac72dffd4beaadd3d 
 RUN cd /ostreeuploader && make
+RUN go install github.com/GoogleCloudPlatform/docker-credential-gcr@v2.0.5+incompatible
 
 FROM docker:20.10.12-dind
 WORKDIR /root/
@@ -25,6 +26,7 @@ ENV DOCKER_CLI_EXPERIMENTAL=enabled
 
 COPY --from=0 /ostreeuploader/bin/fiopush /usr/bin/
 COPY --from=0 /ostreeuploader/bin/fiocheck /usr/bin/
+COPY --from=0 /go/bin/docker-credential-gcr /usr/bin/
 
 CMD bash
 ENTRYPOINT []
