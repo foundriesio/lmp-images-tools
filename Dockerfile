@@ -26,6 +26,7 @@ ENV DOCKER_CLI_EXPERIMENTAL=enabled
 
 COPY --from=0 /ostreeuploader/bin/fiopush /usr/bin/
 COPY --from=0 /ostreeuploader/bin/fiocheck /usr/bin/
+COPY --from=0 /ostreeuploader/bin/fiosync /usr/bin/
 COPY --from=0 /go/bin/docker-credential-gcr /usr/bin/
 
 RUN wget https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-linux-x86_64 -O /usr/lib/docker/cli-plugins/docker-compose \
