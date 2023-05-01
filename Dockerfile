@@ -1,7 +1,7 @@
 FROM golang:alpine
 RUN apk add gcc git glib-dev make musl-dev
 RUN git clone https://github.com/foundriesio/ostreeuploader.git /ostreeuploader && \
-	cd /ostreeuploader && git checkout ae83a2188808fd6188adb25ac72dffd4beaadd3d 
+	cd /ostreeuploader && git checkout b18f2c3728c4cfc219f4c872ae58e444c212b254
 RUN cd /ostreeuploader && make
 RUN go install github.com/GoogleCloudPlatform/docker-credential-gcr@v2.0.5+incompatible
 
