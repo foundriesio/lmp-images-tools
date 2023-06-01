@@ -24,6 +24,12 @@ RUN wget -O /tmp/docker-app.tgz  https://github.com/docker/app/releases/download
 	&& rm /tmp/docker*
 ENV DOCKER_CLI_EXPERIMENTAL=enabled
 
+RUN apk add --no-cache py3-setuptools py3-six \
+	&& wget https://github.com/intel/bmap-tools/archive/refs/tags/v3.6.tar.gz \
+	&& tar -xzf v3.6.tar.gz \
+	&& cd bmap-tools-3.6 && python3 setup.py install && cd - \
+	&& rm -rf v3.6.tar.gz bmap-tools-3.6
+
 COPY --from=0 /ostreeuploader/bin/fiopush /usr/bin/
 COPY --from=0 /ostreeuploader/bin/fiocheck /usr/bin/
 COPY --from=0 /ostreeuploader/bin/fiosync /usr/bin/
