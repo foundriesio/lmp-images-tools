@@ -15,7 +15,7 @@ RUN wget https://storage.googleapis.com/public-shared-artifacts-fio/mirrors/ota-
 	&& tar -xzf ${GARAGE_SIGN_ARCH} --strip-components=1 -C /usr
 
 RUN apk add --no-cache bash glib libarchive libcurl libsodium nss openjdk8-jre-base python3 py3-pip boost-program_options boost-log boost-filesystem boost-log_setup parted sgdisk git lsblk skopeo ostree docker-compose \
-	&& pip3 install expandvars==0.6.5 awscli==1.20.64
+	&& pip3 install expandvars==0.6.5 awscli==1.20.64 canonicaljson==2.0.0
 
 RUN wget -O /tmp/docker-app.tgz  https://github.com/docker/app/releases/download/v0.9.0-beta1/docker-app-linux.tar.gz \
 	&& tar xf "/tmp/docker-app.tgz" -C /tmp/ \
