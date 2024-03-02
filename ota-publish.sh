@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Copyright (c) 2018 Open Source Foundries Ltd.
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: BSD-3-Clause
 #
 # Script to publish and sign a pre-built OSTree repository to an OTA+ server.
 #
