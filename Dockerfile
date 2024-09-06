@@ -5,6 +5,11 @@ RUN git clone https://github.com/foundriesio/ostreeuploader.git /ostreeuploader 
 RUN cd /ostreeuploader && make
 RUN go install github.com/GoogleCloudPlatform/docker-credential-gcr@v2.0.5+incompatible
 
+FROM golang:1.22.2-bookworm AS composectl
+WORKDIR /build
+RUN git clone https://github.com/foundriesio/composeapp.git && cd composeapp \
+    && git checkout v95 && make
+
 FROM docker:20.10.12-dind
 WORKDIR /root/
 
@@ -34,6 +39,8 @@ COPY --from=0 /ostreeuploader/bin/fiopush /usr/bin/
 COPY --from=0 /ostreeuploader/bin/fiocheck /usr/bin/
 COPY --from=0 /ostreeuploader/bin/fiosync /usr/bin/
 COPY --from=0 /go/bin/docker-credential-gcr /usr/bin/
+COPY --from=composectl /build/composeapp/bin/composectl /usr/bin/
+COPY compose-publish.sh /usr/bin/compose-publish
 
 RUN wget https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64 -O /usr/lib/docker/cli-plugins/docker-compose \
 	&& chmod +x /usr/lib/docker/cli-plugins/docker-compose
