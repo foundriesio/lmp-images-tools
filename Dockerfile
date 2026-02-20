@@ -8,7 +8,7 @@ RUN go install github.com/GoogleCloudPlatform/docker-credential-gcr@v2.0.5+incom
 FROM golang:1.22.12-bookworm AS composectl
 WORKDIR /build
 RUN git clone https://github.com/foundriesio/composeapp.git && cd composeapp \
-    && git checkout v96.0.1 && CGO_ENABLED=0 make
+    && git checkout v96.1.0 && CGO_ENABLED=0 make
 
 FROM docker:27-dind
 WORKDIR /root/
